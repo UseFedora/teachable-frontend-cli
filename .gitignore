@@ -8,3 +8,7 @@ typings/**/*
 node_modules/
 src/build/
 coverage/
+npm-debug.log
+yarn-error.log
+
+**/*/.DS_Store
