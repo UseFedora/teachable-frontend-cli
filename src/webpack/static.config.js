@@ -45,13 +45,6 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        // eslint-disable-line quote-props
-        NODE_ENV: JSON.stringify(nodeEnv),
-      },
-    }),
-
     new HtmlWebpackPlugin({
       title: 'Typescript Webpack Starter',
       template: '!!ejs-loader!src/index.html',
@@ -74,6 +67,6 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.js', '.tsx', '.jsx'],
   },
 }

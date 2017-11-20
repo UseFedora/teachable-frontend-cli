@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const path = require('path')
-const config = require('./base.config')
+const config = require('./static.config')
 const tempPath = path.resolve(__dirname, '__temp__')
 const rootPath = path.resolve(__dirname, '../../')
 
@@ -23,27 +23,27 @@ function runDevServer() {
   const target = process.cwd()
   const entry = getEntries(target)
   const output = getOutput(target)
-  const instanceConfig = Object.assign({}, config, {
+  const targetNodeModules = path.resolve(target, 'node_modules')
+  const compiler = webpack(Object.assign({}, config, {
     entry,
     output,
     resolve: Object.assign({}, config.resolve, {
       modules: [
-        path.resolve(target, 'node_modules'),
+        targetNodeModules,
         'node_modules',
       ],
-    })
-  })
-  const compiler = webpack(instanceConfig)
+    }),
+  }))
 
   new WebpackDevServer(compiler, {
-    contentBase: path.join(target, 'dist/'),
     compress: true,
-    inline: true,
+    contentBase: path.join(target, 'dist/'),
     hot: true,
+    inline: true,
+    stats: { colors: true },
   }).listen(8080, 'localhost', (err, result) => {
     if (err) {
-      console.error(err)
-      return
+      return console.error(err)
     }
 
     console.log('Webpack dev server successfully recompiled.')
